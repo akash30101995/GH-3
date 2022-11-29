@@ -20,8 +20,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build and test
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v5
         with:
-          node-version: 16
+          node-version: 18
       - run: npm ci
       - run: npm test
