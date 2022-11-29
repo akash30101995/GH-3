@@ -17,7 +17,7 @@ jobs:
 
   Build:
     needs: "Lint"
-    runs-on: sirpi
+    runs-on: ubuntu-latest
     steps:
       - name: Build and test
         uses: actions/setup-node@v3
