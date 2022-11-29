@@ -19,8 +19,9 @@ jobs:
     needs: "Lint"
     runs-on: ubuntu-latest
     steps:
-      - name: Build and test
-        uses: actions/setup-node@v2
+      - name: checking out
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: 16
       - run: npm ci
