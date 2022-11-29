@@ -1,0 +1,25 @@
+name: Building nodejs
+on:
+  push:
+    branches:
+      - main
+jobs:
+  Lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Run linters
+        uses: wearerequired/lint-action@v2
+        with:
+          github_token: ${{ secrets.github_token }}
+
+  Build:
+    needs: "Lint"
+    runs-on: sirpi
+    steps:
+      - name: Build and test
+        uses: actions/setup-node@v3
+      - run: npm ci
+      - run: npm test
