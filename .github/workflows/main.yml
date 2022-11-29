@@ -1,29 +1,38 @@
 name: Building nodejs
-on:
-  push:
-    branches:
-      - main
+on: push
 jobs:
-  Lint:
+  lint:
     runs-on: ubuntu-latest
     steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v2
-
-      - name: Run linters
-        uses: wearerequired/lint-action@v2
-        with:
-          github_token: ${{ secrets.github_token }}
-
-  Build:
-    needs: "Lint"
-    runs-on: ubuntu-latest
-    steps:
-      - name: Get the code from repository
+      - name: checking out to repo
         uses: actions/checkout@v3
-      - name: Install nodejs
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - run: npm ci
-      - run: npm test
+        
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint
+        run: npm run lint
+  test:
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: checking out to repo
+        uses: actions/checkout@v3
+        
+      - name: Install dependencies
+        run: npm ci
+      - name: Lint
+        run: npm test
+    
+  deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: checking out to repo
+        uses: actions/checkout@v3
+      - name: Install dependencies
+        run: npm ci
+      - name: building code
+        run: npm run build
+      - name: deploying code
+        run: echo "deployment of code"
+      
